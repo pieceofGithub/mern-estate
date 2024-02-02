@@ -13,10 +13,11 @@ export default function App() {
       <Header></Header>
       <Routes>
         <Route path="/" element={<Home/>} />
-        <Route path="/kaydol" element={<SignIn/>} />
-        <Route path="/sign-up" element={<SignUp/>} />
+        <Route path="/giris-yap" element={<SignIn/>} />
+        <Route path="/kaydol" element={<SignUp/>} />
         <Route path="/hakkında" element={<About/>} />
         <Route path="/kullanıcı" element={<Profile/>} />
+        
 
         
       </Routes>
