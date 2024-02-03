@@ -1,13 +1,16 @@
 import React from 'react'
 import { useState } from 'react'
+import { useDispatch, useSelector } from 'react-redux'
 import { Link, useNavigate} from 'react-router-dom'
+import { signInFailure,signInStart,signInSuccess } from '../redux/user/userSlice'
+
 
 export default function SignIn() {
 
   const [formData, setFormData] = useState({})
-  const [error, setError] = useState(null);
-  const [loading, setLoading] = useState(false);
+  const {error, loading} = useSelector((state => state.user));
   const navigate = useNavigate();
+  const dispacth = useDispatch();
   
   const handleChange = (e) =>{
     setFormData ({
@@ -20,11 +23,11 @@ export default function SignIn() {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    setLoading(true);
-  
+    
     // ...
-
+    
     try {
+      dispacth(signInStart)
       const res = await fetch('/api/auth/signin', {
         method: 'POST',
         headers: {
@@ -36,18 +39,15 @@ export default function SignIn() {
       const data = await res.json();
 
       if (data.success === false) {
-        setLoading(false);
-        setError(data.message);
+        dispacth(signInFailure(data.message));
         return;
       }
 
-      setLoading(false);
-      setError(null); // Corrected this line, setting error to null
+      dispacth(signInSuccess(data))
       navigate('/');
       console.log(data);
     } catch (error) {
-      setLoading(false);
-      setError(error); // Corrected this line, setting error to the error object
+     dispacth(signInFailure(error.message))
       console.error('API çağrısı sırasında bir hata oluştu:', error);
     }
 
@@ -59,7 +59,7 @@ export default function SignIn() {
     <div className='p-3 max-w-lg mx-auto' >
       <h1 className='text-center text-3xl font-semibold my-7'>Giriş Yap</h1>
       <form onSubmit = {handleSubmit} className='flex flex-col gap-4' >
-        <input type="text" placeholder='Kullanıcı adı' className='border p-3 rounded-lg ' id="username" onChange={handleChange} />
+        
         <input type="email" placeholder='Email' className='border p-3 rounded-lg ' id="email" onChange={handleChange}/>
         <input type="password" placeholder='Şifre' className='border p-3 rounded-lg ' id="password" onChange={handleChange}/>
         <button disabled={loading} className='bg-slate-700 text-white p-3 rounded-lg uppercase hover:opacity-95 disabled:opacity-80' >{loading ? "Yükleniyor..." : "Giriş Yap"}</button>
