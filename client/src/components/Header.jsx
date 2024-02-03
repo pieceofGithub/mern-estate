@@ -22,13 +22,13 @@ export default function Header() {
             </form>
             <ul className='flex gap-4'>
                 <Link to='/'>
-                    <li className='hidden sm:inline text-slate-700 hover:underline'>Home</li>
+                    <li className='hidden sm:inline text-slate-700 hover:underline'>Anasayfa</li>
                 </Link>
                 <Link to='/hakkında'>
-                    <li className='hidden sm:inline text-slate-700 hover:underline'>About</li>
+                    <li className='hidden sm:inline text-slate-700 hover:underline'>Hakkında</li>
                 </Link>
                 <Link to='/giris-yap'>
-                    <li className='sm:inline text-slate-700 hover:underline'>Sign in</li>
+                    <li className='sm:inline text-slate-700 hover:underline'>Giriş Yap</li>
                 </Link>
             </ul>
 
