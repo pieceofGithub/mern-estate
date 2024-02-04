@@ -2,6 +2,7 @@ import React from 'react'
 import { useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import { Link, useNavigate} from 'react-router-dom'
+import Oauth from '../components/Oauth'
 import { signInFailure,signInStart,signInSuccess } from '../redux/user/userSlice'
 
 
@@ -10,7 +11,7 @@ export default function SignIn() {
   const [formData, setFormData] = useState({})
   const {error, loading} = useSelector((state => state.user));
   const navigate = useNavigate();
-  const dispacth = useDispatch();
+  const dispatch = useDispatch();
   
   const handleChange = (e) =>{
     setFormData ({
@@ -27,7 +28,7 @@ export default function SignIn() {
     // ...
     
     try {
-      dispacth(signInStart)
+      dispatch(signInStart())
       const res = await fetch('/api/auth/signin', {
         method: 'POST',
         headers: {
@@ -39,15 +40,15 @@ export default function SignIn() {
       const data = await res.json();
 
       if (data.success === false) {
-        dispacth(signInFailure(data.message));
+        dispatch(signInFailure(data.message));
         return;
       }
 
-      dispacth(signInSuccess(data))
+      dispatch(signInSuccess(data))
       navigate('/');
       console.log(data);
     } catch (error) {
-     dispacth(signInFailure(error.message))
+      dispatch(signInFailure(error.message))
       console.error('API çağrısı sırasında bir hata oluştu:', error);
     }
 
@@ -63,10 +64,11 @@ export default function SignIn() {
         <input type="email" placeholder='Email' className='border p-3 rounded-lg ' id="email" onChange={handleChange}/>
         <input type="password" placeholder='Şifre' className='border p-3 rounded-lg ' id="password" onChange={handleChange}/>
         <button disabled={loading} className='bg-slate-700 text-white p-3 rounded-lg uppercase hover:opacity-95 disabled:opacity-80' >{loading ? "Yükleniyor..." : "Giriş Yap"}</button>
+        <Oauth></Oauth>
       </form>
       <div className='flex gap-2 mt-5'>
         <p>{"Hesap oluştur =>"} </p>
-        <Link to="/Kaydol">
+        <Link to="/kaydol">
           <span className='text-blue-700'>Kaydol</span>
         </Link>
       </div>
