@@ -15,6 +15,7 @@ const Oauth = () => {
       const auth = getAuth(app);
 
       const result = await signInWithPopup(auth, provider);
+      console.log(result)
 
       // Eğer bir API çağrısı yapmak istiyorsanız, API endpoint'inin doğru ayarlandığından emin olun.
       const res = await fetch('/api/auth/google', {
