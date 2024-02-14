@@ -26,8 +26,8 @@ export default function Profile() {
   const [fileUploadError, setFileUploadError] = useState(false);
   const [formData, setFormData] = useState({});
   const [updateSuccess, setUpdateSuccess] = useState(false);
-  // const [showListingsError, setShowListingsError] = useState(false);
-  // const [userListings, setUserListings] = useState([]);
+  const [showListingsError, setShowListingsError] = useState(false);
+  const [userListings, setUserListings] = useState([]);
   const dispatch = useDispatch();
 
   // firebase storage
@@ -128,43 +128,43 @@ export default function Profile() {
     }
   };
 
-  // const handleShowListings = async () => {
-  //   try {
-  //     setShowListingsError(false);
-  //     const res = await fetch(`/api/user/listings/${currentUser._id}`);
-  //     const data = await res.json();
-  //     if (data.success === false) {
-  //       setShowListingsError(true);
-  //       return;
-  //     }
+  const handleShowListings = async () => {
+    try {
+      setShowListingsError(false);
+      const res = await fetch(`/api/user/listings/${currentUser._id}`);
+      const data = await res.json();
+      if (data.success === false) {
+        setShowListingsError(true);
+        return;
+      }
 
-  //     setUserListings(data);
-  //   } catch (error) {
-  //     setShowListingsError(true);
-  //   }
-  // };
+      setUserListings(data);
+    } catch (error) {
+      setShowListingsError(true);
+    }
+  };
 
-  // const handleListingDelete = async (listingId) => {
-  //   try {
-  //     const res = await fetch(`/api/listing/delete/${listingId}`, {
-  //       method: 'DELETE',
-  //     });
-  //     const data = await res.json();
-  //     if (data.success === false) {
-  //       console.log(data.message);
-  //       return;
-  //     }
+  const handleListingDelete = async (listingId) => {
+    try {
+      const res = await fetch(`/api/listing/delete/${listingId}`, {
+        method: 'DELETE',
+      });
+      const data = await res.json();
+      if (data.success === false) {
+        console.log(data.message);
+        return;
+      }
 
-  //     setUserListings((prev) =>
-  //       prev.filter((listing) => listing._id !== listingId)
-  //     );
-  //   } catch (error) {
-  //     console.log(error.message);
-  //   }
-  // };
+      setUserListings((prev) =>
+        prev.filter((listing) => listing._id !== listingId)
+      );
+    } catch (error) {
+      console.log(error.message);
+    }
+  };
   return (
     <div className='p-3 max-w-lg mx-auto'>
-      <h1 className='text-3xl font-semibold text-center my-7'>Profile</h1>
+      <h1 className='text-3xl font-semibold text-center my-7'>Kullanıcı</h1>
       <form onSubmit={handleSubmit} className='flex flex-col gap-4'>
         <input
           onChange={(e) => setFile(e.target.files[0])}
@@ -182,7 +182,7 @@ export default function Profile() {
         <p className='text-sm self-center'>
           {fileUploadError ? (
             <span className='text-red-700'>
-              Error Image upload (image must be less than 2 mb)
+              Görüntü Yükleme Hatası (Görüntü 2mb'den düşük olmalı)
             </span>
           ) : filePerc > 0 && filePerc < 100 ? (
             <span className='text-slate-700'>{`Yükleniyor %${filePerc} ...`}</span>
@@ -219,43 +219,43 @@ export default function Profile() {
           disabled={loading}
           className='bg-slate-700 text-white rounded-lg p-3 uppercase hover:opacity-95 disabled:opacity-80'
         >
-          {loading ? 'Loading...' : 'Update'}
+          {loading ? 'Yükleniyor...' : 'Güncelle'}
         </button>
-        {/* <Link
+        <Link
           className='bg-green-700 text-white p-3 rounded-lg uppercase text-center hover:opacity-95'
-          to={'/create-listing'}
+          to="/ilan-olustur"
         >
-          Create Listing
-        </Link> */}
+          İlan Oluştur
+        </Link>
       </form>
       <div className='flex justify-between mt-5'>
         <span
           onClick={handleDeleteUser}
           className='text-red-700 cursor-pointer'
         >
-          Delete account
+          Hesabı Sil
         </span>
         <span 
           onClick={handleSignOut} 
           className='text-red-700 cursor-pointer'>
-          Sign out
+          Çıkış
         </span>
       </div>
 
       <p className='text-red-700 mt-5'>{error ? error : ''}</p>
       <p className='text-green-700 mt-5'>
-        {updateSuccess ? 'User is updated successfully!' : ''}
+        {updateSuccess ? 'Kullanıcı başarılı şekilde güncellendi!' : ''}
       </p>
       <button 
-        // onClick={handleShowListings} 
+        onClick={handleShowListings} 
         className='text-green-700 w-full'>
-        Show Listings
+        İlanları Göster
       </button>
       <p className='text-red-700 mt-5'>
-        {/* {showListingsError ? 'Error showing listings' : ''} */}
+        {showListingsError ? 'Error showing listings' : ''}
       </p>
 
-      {/* {userListings && userListings.length > 0 && (
+      {userListings && userListings.length > 0 && (
         <div className='flex flex-col gap-4'>
           <h1 className='text-center mt-7 text-2xl font-semibold'>
             Your Listings
@@ -293,7 +293,7 @@ export default function Profile() {
             </div>
           ))}
         </div>
-      )} */}
+      )}
     </div>
   );
 }

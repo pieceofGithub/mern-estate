@@ -27,10 +27,10 @@ export default function Header() {
                     <Link to='/'>
                         <li className='hidden sm:inline text-slate-700 hover:underline'>Anasayfa</li>
                     </Link>
-                    <Link to='/hakkında'>
+                    <Link to='/hakkinda'>
                         <li className='hidden sm:inline text-slate-700 hover:underline'>Hakkında</li>
                     </Link>
-                    <Link to='/kullanıcı'>
+                    <Link to='/kullanici'>
                         {currentUser ? (
                             <img className='rounded-full h-7 w-7 object-cover' src={currentUser.avatar} alt='profile'></img>
                         ) : (<li className='sm:inline text-slate-700 hover:underline'>Giriş Yap</li>)}
